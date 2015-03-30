@@ -1,7 +1,7 @@
 .xp_cache
 node_modules
 bower_components
-xpm_modules
+#xpm_modules
 tmp/*
 hiera/
 # prevent conflict on xp5k cutomization

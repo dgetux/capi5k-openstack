@@ -79,4 +79,11 @@ task :FRIEDA, :roles => [:controller] do
     ./setup.py install"
 end
 
+desc 'Add upload user'
+task :userupload, :roles => [:controller] do
+  set :user, "root"
+  run 'adduser upload --disabled-password --gecos "" &&
+    su upload -c "cd && mkdir .ssh && ssh-keygen -t rsa -f .ssh/id_rsa -q -N \"\" && cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys"'
+end
+
 after "xp5k", "submit", "deploy"

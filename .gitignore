@@ -5,6 +5,5 @@ bower_components
 tmp/*
 hiera/
 # prevent conflict on xp5k cutomization
-config/
 Gemfile.lock
 

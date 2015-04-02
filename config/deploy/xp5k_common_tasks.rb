@@ -86,4 +86,17 @@ task :userupload, :roles => [:controller] do
     su upload -c "cd && mkdir .ssh && ssh-keygen -t rsa -f .ssh/id_rsa -q -N \"\" && cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys"'
 end
 
+desc 'Fix tiny flavor'
+task :fixtiny, :roles => [:controller] do
+  set :user, "root"
+  set :default_environment, { 
+    "OS_USERNAME" => "test",
+    "OS_PASSWORD" => "abc123",
+    "OS_TENANT_NAME" => "test",
+    "OS_AUTH_URL" => "http://localhost:5000/v2.0/"
+  }
+  run 'nova flavor-delete m1.tiny &&
+    nova flavor-create m1.tiny 1 512 5 1'
+end
+
 after "xp5k", "submit", "deploy"

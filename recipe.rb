@@ -297,15 +297,13 @@ namespace :openstack do
       ip=vlan_config["#{site}"][vlan]
       cidr =  NetAddr::CIDR.create(ip)
       splited_ip = cidr.first.split('.')
-      c1=(splited_ip[2].to_i+30).to_s
-      c2=(splited_ip[2].to_i+63).to_s
-      nova_gateway = splited_ip[0].to_s+"."+splited_ip[1].to_s+"."+c2+".254"
+      c=(splited_ip[2].to_i+30).to_s
 
       # we choose a range of ips which doen't collide with any host of g5k 
       # see https://www.grid5000.fr/mediawiki/index.php/User:Lnussbaum/Network#KaVLAN
       # here 255 hosts only
-      nova_net = controllerAddress.gsub(/(\d)+\.(\d)+$/, c1+".0/24")
-      run "nova network-create net-jdoe --bridge br100 --multi-host T --fixed-range-v4 #{nova_net} --gateway #{nova_gateway}"
+      nova_net = controllerAddress.gsub(/(\d)+\.(\d)+$/, c+".0/24")
+      run "nova network-create net-jdoe --bridge br100 --multi-host T --fixed-range-v4 #{nova_net} --dns1 131.254.203.235"
       run "nova net-list"
     end
 
